@@ -30,23 +30,53 @@ public class T extends Frame {
     public void paint(Graphics g) {  //当窗口重新绘画的时候会被调用
         g.setColor(Color.BLUE);
         g.fillRect(x,y,50,50);
-        x += 10;
-        y += 10;
-    }
 
+    }
 
     //创建匿名内部类  处理对键盘的监听
     class MyKeyList extends KeyAdapter{
+
+        boolean BL = false;
+        boolean BR = false;
+        boolean BD = false;
+        boolean BU = false;
+
         @Override  //按下去 之后需要重画
         public void keyPressed(KeyEvent e) {
-          //  x += 200;
-           // repaint(); //会默认调用paint的方法
-
+            int keyCode = e.getKeyCode();
+            switch (keyCode) {
+                case KeyEvent.VK_LEFT:  //向左
+                    BL = true;
+                    break;
+                case KeyEvent.VK_DOWN:  //向下
+                    BD = true;
+                    break;
+                case KeyEvent.VK_RIGHT: //向右
+                    BR = true;
+                    break;
+                case KeyEvent.VK_UP:   //向上
+                    BU = true;
+                    break;
+            }
         }
 
         @Override  //抬起来
         public void keyReleased(KeyEvent e) {
-
+            int keyCode = e.getKeyCode();
+            switch (keyCode) {
+                case KeyEvent.VK_LEFT:  //向左
+                    BL = false;
+                    break;
+                case KeyEvent.VK_DOWN:  //向下
+                    BD = false;
+                    break;
+                case KeyEvent.VK_RIGHT: //向右
+                    BR = false;
+                    break;
+                case KeyEvent.VK_UP:   //向上
+                    BU = false;
+                    break;
+            }
         }
     }
 }
