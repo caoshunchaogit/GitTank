@@ -9,10 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class T extends Frame {
-    int x = 50,y=50;  //为了使方块能根据按键移动  设置为变量
-    Dir dir = Dir.DOWN; //使坦克的默认方向向下
-    final int SPEED = 10;
-
+    MyTank tank = new MyTank(200,200,Dir.DOWN);
     public T(){
         this.setResizable(false); //设置大小不可变
         this.setSize(1000,1000); //设置宽高
@@ -32,24 +29,10 @@ public class T extends Frame {
 
     //每隔50毫秒就会调用一次这个方法 会根据当前的方向进行移动
     @Override
-    public void paint(Graphics g) {  //当窗口重新绘画的时候会被调用
-        g.setColor(Color.BLUE);
-        g.fillRect(x,y,50,50);
-        //根据dir的方向让坦克移动位置
-        switch (dir){
-            case LEFT:
-                x -= SPEED;
-                break;
-            case UP:
-                y -= SPEED;
-                break;
-            case RIGHT:
-                x += SPEED;
-                break;
-            case DOWN:
-                y += SPEED;
-                break;
-        }
+    public void paint(Graphics g) {//当窗口重新绘画的时候会被调用
+        //在坦克类里创建方法，把画笔传进去，让坦克自己画自己
+        tank.paint(g);
+
     }
 
 
@@ -65,6 +48,7 @@ public class T extends Frame {
         @Override  //按下去 之后需要重画
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
+
             switch (keyCode) {
                 case KeyEvent.VK_LEFT:  //向左
                     BL = true;
@@ -105,10 +89,10 @@ public class T extends Frame {
         }
         //按键结束抬起修改坦克方向  结束之后会调用重画的方法
         private void setMainTankDir() {
-            if(BL) dir = Dir.LEFT;
-            if(BD) dir = Dir.DOWN;
-            if(BR) dir = Dir.RIGHT;
-            if(BU) dir = Dir.UP;
+            if(BL) tank.setDir( Dir.LEFT);
+            if(BD) tank.setDir( Dir.DOWN);
+            if(BR) tank.setDir( Dir.RIGHT);
+            if(BU) tank.setDir( Dir.UP);
         }
     }
 }
