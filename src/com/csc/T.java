@@ -48,7 +48,6 @@ public class T extends Frame {
         @Override  //按下去 之后需要重画
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
-
             switch (keyCode) {
                 case KeyEvent.VK_LEFT:  //向左
                     BL = true;
@@ -89,10 +88,18 @@ public class T extends Frame {
         }
         //按键结束抬起修改坦克方向  结束之后会调用重画的方法
         private void setMainTankDir() {
-            if(BL) tank.setDir( Dir.LEFT);
-            if(BD) tank.setDir( Dir.DOWN);
-            if(BR) tank.setDir( Dir.RIGHT);
-            if(BU) tank.setDir( Dir.UP);
+            //如果都松开了，让moving为false
+            if(!BL && !BD && !BR &&!BU) tank.setMoving(false);
+            else {
+                tank.setMoving(true); //按下去设置为true
+                if(BL) tank.setDir( Dir.LEFT);
+                if(BD) tank.setDir( Dir.DOWN);
+                if(BR) tank.setDir( Dir.RIGHT);
+                if(BU) tank.setDir( Dir.UP);
+            }
+
+
+
         }
     }
 }
