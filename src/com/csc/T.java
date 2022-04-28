@@ -9,6 +9,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class T extends Frame {
+    int x = 50,y=50;  //为了使方块能根据按键移动  设置为变量
+    Dir dir = Dir.DOWN; //使坦克的默认方向向下
+    final int SPEED = 10;
+
     public T(){
         this.setResizable(false); //设置大小不可变
         this.setSize(1000,1000); //设置宽高
@@ -25,13 +29,28 @@ public class T extends Frame {
         this.addKeyListener(new MyKeyList());
     }
 
-    int x = 50,y=50;  //为了使方块能根据按键移动  设置为变量
+
     @Override
     public void paint(Graphics g) {  //当窗口重新绘画的时候会被调用
         g.setColor(Color.BLUE);
         g.fillRect(x,y,50,50);
-
+        //根据dir的方向让坦克移动位置
+        switch (dir){
+            case LEFT:
+                x -= SPEED;
+                break;
+            case UP:
+                y -= SPEED;
+                break;
+            case RIGHT:
+                x += SPEED;
+                break;
+            case DOWN:
+                y += SPEED;
+                break;
+        }
     }
+
 
     //创建匿名内部类  处理对键盘的监听
     class MyKeyList extends KeyAdapter{
@@ -58,6 +77,7 @@ public class T extends Frame {
                     BU = true;
                     break;
             }
+            setMainTankDir();
         }
 
         @Override  //抬起来
@@ -77,6 +97,15 @@ public class T extends Frame {
                     BU = false;
                     break;
             }
+            setMainTankDir();
+        }
+
+        //按键结束抬起修改坦克方向
+        private void setMainTankDir() {
+            if(BL) dir = Dir.LEFT;
+            if(BD) dir = Dir.DOWN;
+            if(BR) dir = Dir.RIGHT;
+            if(BU) dir = Dir.UP;
         }
     }
 }
