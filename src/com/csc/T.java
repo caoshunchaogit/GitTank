@@ -30,6 +30,7 @@ public class T extends Frame {
     }
 
 
+    //每隔50毫秒就会调用一次这个方法 会根据当前的方向进行移动
     @Override
     public void paint(Graphics g) {  //当窗口重新绘画的时候会被调用
         g.setColor(Color.BLUE);
@@ -55,6 +56,7 @@ public class T extends Frame {
     //创建匿名内部类  处理对键盘的监听
     class MyKeyList extends KeyAdapter{
 
+        //默认为false
         boolean BL = false;
         boolean BR = false;
         boolean BD = false;
@@ -83,6 +85,7 @@ public class T extends Frame {
         @Override  //抬起来
         public void keyReleased(KeyEvent e) {
             int keyCode = e.getKeyCode();
+            //当键按下去的时候改变状态
             switch (keyCode) {
                 case KeyEvent.VK_LEFT:  //向左
                     BL = false;
@@ -97,10 +100,10 @@ public class T extends Frame {
                     BU = false;
                     break;
             }
+            //根据状态判断方向
             setMainTankDir();
         }
-
-        //按键结束抬起修改坦克方向
+        //按键结束抬起修改坦克方向  结束之后会调用重画的方法
         private void setMainTankDir() {
             if(BL) dir = Dir.LEFT;
             if(BD) dir = Dir.DOWN;
