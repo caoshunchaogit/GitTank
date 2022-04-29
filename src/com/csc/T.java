@@ -1,16 +1,23 @@
 package com.csc;
 
 import org.omg.CORBA.PUBLIC_MEMBER;
+import sun.rmi.log.LogInputStream;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * 窗口类
+ * */
 public class T extends Frame {
-    MyTank tank = new MyTank(200,200,Dir.DOWN);
-    public T(){
+    MyTank tank = new MyTank(200,200,Dir.DOWN,this);
+    List<Bullet> bullets = new ArrayList<>();
+        public T(){
         this.setResizable(false); //设置大小不可变
         this.setSize(1000,1000); //设置宽高
         this.setTitle("曹顺超的坦克大战");  //设置标题
@@ -32,6 +39,9 @@ public class T extends Frame {
     public void paint(Graphics g) {//当窗口重新绘画的时候会被调用
         //在坦克类里创建方法，把画笔传进去，让坦克自己画自己
         tank.paint(g);
+        for(Bullet b : bullets){
+            b.paint(g);
+        }
 
     }
 
@@ -82,6 +92,9 @@ public class T extends Frame {
                 case KeyEvent.VK_UP:   //向上
                     BU = false;
                     break;
+                case KeyEvent.VK_CONTROL:
+                    tank.file();
+                    break;
             }
             //根据状态判断方向
             setMainTankDir();
@@ -97,9 +110,6 @@ public class T extends Frame {
                 if(BR) tank.setDir( Dir.RIGHT);
                 if(BU) tank.setDir( Dir.UP);
             }
-
-
-
         }
     }
 }

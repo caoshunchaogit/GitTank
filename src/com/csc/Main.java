@@ -1,5 +1,8 @@
 package com.csc;
 
+/**
+ * 主方法
+ * */
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         T t = new T();

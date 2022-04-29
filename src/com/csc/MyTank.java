@@ -1,18 +1,25 @@
 package com.csc;
 
+import sun.dc.pr.PRError;
+
 import java.awt.*;
 
+/**
+ * 坦克类
+ * */
 public class MyTank {
 
     private int x = 50,y=50;  //为了使方块能根据按键移动  设置为变量
     private Dir dir = Dir.DOWN; //使坦克的默认方向向下
     final int SPEED = 10;
     private boolean moving = false;
+    private T t;
 
-    public MyTank(int x, int y, Dir dir) {
+    public MyTank(int x, int y, Dir dir,T t) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.t = t;
     }
     public Dir getDir() {
         return dir;
@@ -48,5 +55,9 @@ public class MyTank {
                 y += SPEED;
                 break;
         }
+    }
+
+    public void file() {
+        t.bullets.add(new Bullet(x,y,dir));
     }
 }
