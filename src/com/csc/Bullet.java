@@ -11,7 +11,7 @@ public class Bullet {
     private Dir dir;
 
     public static final int SPEED = 5;  //速度
-    public static final int WHIT = 20,HEIGHT = 20;
+    public static final int WHIT = 15,HEIGHT = 15;
 
     public Bullet(int x, int y, Dir dir) {
         this.x = x;
@@ -19,11 +19,11 @@ public class Bullet {
         this.dir = dir;
     }
 
-
+    //画子弹的方法
     public void paint(Graphics g) {
-        Color color = g.getColor();
-        g.setColor(Color.RED);
-        g.fillOval(x,y,WHIT,HEIGHT);
+        Color color = g.getColor();  //获取开始颜色
+        g.setColor(Color.RED);  //画出红的子弹
+        g.fillOval(x+17,y+17,WHIT,HEIGHT);  //子弹的
         g.setColor(color);
         move();
     }

@@ -9,11 +9,11 @@ import java.awt.*;
  * */
 public class MyTank {
 
-    private int x = 50,y=50;  //为了使方块能根据按键移动  设置为变量
+    private int x =50,y=50;     //x y 为坦克初始的坐标
     private Dir dir = Dir.DOWN; //使坦克的默认方向向下
     final int SPEED = 10;
-    private boolean moving = false;
-    private T t;
+    private boolean moving = false;   //坦克的状态
+    private T t;  //窗口类
 
     public MyTank(int x, int y, Dir dir,T t) {
         this.x = x;
@@ -39,8 +39,9 @@ public class MyTank {
         //根据dir的方向让坦克移动位置
         move();
     }
+    //移动的方法
     private void move() {
-        if(!moving) return;
+        if(!moving) return;  //如果不按键盘
         switch (dir){
             case LEFT:
                 x -= SPEED;
@@ -56,8 +57,9 @@ public class MyTank {
                 break;
         }
     }
-
+    //子弹开火的方法
     public void file() {
-        t.bullets.add(new Bullet(x,y,dir));
+        //new 出来一个子弹，在添加到窗口类的子弹集合中 xy和坦克的一致，
+        t.bullets.add(new Bullet(x,y,dir));  //x y 为坐标的方向
     }
 }

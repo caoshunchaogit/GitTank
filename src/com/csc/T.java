@@ -40,6 +40,7 @@ public class T extends Frame {
         //在坦克类里创建方法，把画笔传进去，让坦克自己画自己
         tank.paint(g);
         for(Bullet b : bullets){
+            //每个子弹自己画自己
             b.paint(g);
         }
 
