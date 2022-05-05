@@ -15,10 +15,13 @@ public class MyTank {
     final int SPEED = 5;
     private boolean moving = true;   //坦克的状态
     private T t;  //窗口类
-    public static final int WIDTH = ResourceMrg.tankD.getWidth();
-    public static final int HEIGHT = ResourceMrg.tankD.getHeight();
+    public static final int WIDTH = ResourceMrg.goodTankD.getWidth();
+    public static final int HEIGHT = ResourceMrg.goodTankD.getHeight();
     public boolean living = true;  //坦克的生死状态
     public Random random = new Random();
+
+    Rectangle rectangle = new Rectangle();
+
     public Group group = Group.BOD;
 
     public boolean getLiving() {
@@ -35,6 +38,11 @@ public class MyTank {
         this.dir = dir;
         this.t = t;
         this.group = group;
+
+        rectangle.x = this.x;
+        rectangle.y = this.y;
+        rectangle.width = WIDTH;
+        rectangle.height = HEIGHT;
     }
     public Dir getDir() {
         return dir;
@@ -70,16 +78,16 @@ public class MyTank {
         if(!living) t.tanks.remove(this);
         switch (dir){
             case UP:
-                g.drawImage(ResourceMrg.tankU,x,y,null);
+                g.drawImage( this.group== Group.GOOD ? ResourceMrg.goodTankU : ResourceMrg.badTankU,x,y,null);
                 break;
             case DOWN:
-                g.drawImage(ResourceMrg.tankD,x,y,null);
+                g.drawImage(this.group== Group.GOOD ? ResourceMrg.goodTankD : ResourceMrg.badTankD,x,y,null);
                 break;
             case RIGHT:
-                g.drawImage(ResourceMrg.tankR,x,y,null);
+                g.drawImage(this.group== Group.GOOD ? ResourceMrg.goodTankR : ResourceMrg.badTankR,x,y,null);
                 break;
             case LEFT:
-                g.drawImage(ResourceMrg.tankL,x,y,null);
+                g.drawImage(this.group== Group.GOOD ? ResourceMrg.goodTankL : ResourceMrg.badTankL,x,y,null);
         }
         //根据dir的方向让坦克移动位置
         move();
@@ -101,6 +109,8 @@ public class MyTank {
                 y += SPEED;
                 break;
         }
+        rectangle.x = x;
+        rectangle.y = y;
 
         if(y + HEIGHT >= 1000){
             y  = 1000 - HEIGHT;
@@ -130,8 +140,10 @@ public class MyTank {
 
     //子弹开火的方法
     public void file() {
+        int bX = this.x + MyTank.WIDTH/2 - Bullet.WIDTHB/2;
+        int bY = this.y + MyTank.HEIGHT/2 - Bullet.HEIGHTB/2;
         //new 出来一个子弹，在添加到窗口类的子弹集合中 xy和坦克的一致，
-        t.bullets.add(new Bullet(x,y,dir,this.t,this.group));  //x y 为坐标的方向
+        t.bullets.add(new Bullet(bX,bY,dir,this.t,this.group));  //x y 为坐标的方向
     }
 
     //坦克死亡的方法

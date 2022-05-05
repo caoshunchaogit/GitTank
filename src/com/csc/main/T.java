@@ -58,9 +58,9 @@ public class T extends Frame {
         for(int i = 0;i < bullets.size(); i++){    //画出子弹
             bullets.get(i).paint(g);
         }
-//        for(int i = 0;i < tanks.size(); i++){   //画出敌军坦克
-//            tanks.get(i).paint(g);
-//        }
+        for(int i = 0;i < tanks.size(); i++){   //画出敌军坦克
+            tanks.get(i).paint(g);
+        }
 
         for(int i = 0;i < explodes.size(); i++){   //画出坦克爆炸
             explodes.get(i).paint(g);

@@ -17,7 +17,7 @@ public class Bullet {
     public boolean living = true;  //子弹的生存状态
     public static final int WIDTHB = ResourceMrg.bulletD.getWidth();
     public static final int HEIGHTB = ResourceMrg.bulletD.getHeight();
-
+    Rectangle rectangle = new Rectangle();
 
     public Bullet(int x, int y, Dir dir, T t,Group group) {
         this.x = x;
@@ -25,6 +25,11 @@ public class Bullet {
         this.dir = dir;
         this.t = t;
         this.group = group;
+
+        rectangle.x = this.x;
+        rectangle.y = this.y;
+        rectangle.width = WHIT;
+        rectangle.height = HEIGHT;
     }
 
     //画子弹的方法
@@ -34,16 +39,16 @@ public class Bullet {
         }
         switch (dir){
             case UP:
-                g.drawImage(ResourceMrg.bulletU,x+20,y+23,null);
+                g.drawImage(ResourceMrg.bulletU,x,y,null);
                 break;
             case DOWN:
-                g.drawImage(ResourceMrg.bulletD,x+18,y+23,null);
+                g.drawImage(ResourceMrg.bulletD,x,y,null);
                 break;
             case RIGHT:
-                g.drawImage(ResourceMrg.bulletR,x+20,y+23,null);
+                g.drawImage(ResourceMrg.bulletR,x,y,null);
                 break;
             case LEFT:
-                g.drawImage(ResourceMrg.bulletL,x+20,y+23,null);
+                g.drawImage(ResourceMrg.bulletL,x,y,null);
         }
         move();
     }
@@ -63,15 +68,18 @@ public class Bullet {
                 y += SPEED;
                 break;
         }
+
+        rectangle.x = x;
+        rectangle.y = y;
+
         if(x < 0 || y <  0 ||  x > 1000 || y > 1000) living = false;
 
     }
 
     public void collideWith(MyTank myTank) {
-        Rectangle rectangle = new Rectangle(this.x,this.y,WHIT,HEIGHT);
-        Rectangle rectangle1 = new Rectangle(myTank.getX(),myTank.getY(),MyTank.WIDTH,MyTank.HEIGHT);
+
         if(group == myTank.group) return;
-        if(rectangle.intersects(rectangle1)){
+        if(rectangle.intersects(myTank.rectangle)){
             myTank.die();
             this.die();
             int eX = myTank.getX() + MyTank.WIDTH/2 - Explodes.WIDTH/2;
