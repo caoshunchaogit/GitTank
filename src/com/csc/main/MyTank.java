@@ -11,7 +11,7 @@ import java.util.Random;
 public class MyTank {
     public int x ,y;     //x y 为坦克初始的坐标
 
-    private Dir dir = Dir.UP; //使坦克的默认方向向下
+    private Dir dir = Dir.UP; //使坦克的默认方向向上
     final int SPEED = 5;
     private boolean moving = true;   //坦克的状态
     private T t;  //窗口类
@@ -66,6 +66,7 @@ public class MyTank {
     }
 
     public void paint(Graphics g) {
+
         if(!living) t.tanks.remove(this);
         switch (dir){
             case UP:
@@ -100,9 +101,33 @@ public class MyTank {
                 y += SPEED;
                 break;
         }
-        if(random.nextInt(10) > 5) this.file();
+
+        if(y + HEIGHT >= 1000){
+            y  = 1000 - HEIGHT;
+        }
+        if(y <= HEIGHT / 2){
+            y  = HEIGHT / 2;
+        }
+
+        if(x + WIDTH >= 1000){
+            x  = 1000 - WIDTH;
+        }
+        if(x <= 0){
+            x  = 0;
+        }
+
+        if(this.group == Group.BOD && (random.nextInt(100) > 95))
+            this.file();
+        if(this.group == Group.BOD && random.nextInt(100)> 95){
+            randomDir();
+        }
 
     }
+
+    private void randomDir() {
+        this.dir = Dir.values()[random.nextInt(4)];
+    }
+
     //子弹开火的方法
     public void file() {
         //new 出来一个子弹，在添加到窗口类的子弹集合中 xy和坦克的一致，

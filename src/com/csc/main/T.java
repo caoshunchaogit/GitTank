@@ -12,12 +12,11 @@ import java.util.List;
  * 窗口类
  * */
 public class T extends Frame {
-    MyTank tank = new MyTank(500,800,Dir.UP,this,Group.GOOD);
+    MyTank tank = new MyTank(500,800,Dir.DOWN,this,Group.GOOD);
     List<Bullet> bullets = new ArrayList<>();  //子弹集合
     List<MyTank> tanks = new ArrayList<>();  //敌方坦克的集合
-    Explodes ex = new Explodes(300,500,this);
-
-        public T(){
+    List<Explodes> explodes = new ArrayList<>();
+    public T(){
         this.setResizable(false); //设置大小不可变
         this.setSize(1000,1000); //设置宽高
         this.setTitle("曹顺超的坦克大战");  //设置标题
@@ -54,22 +53,25 @@ public class T extends Frame {
     @Override
     public void paint(Graphics g) {//当窗口重新绘画的时候会被调用
         //在坦克类里创建方法，把画笔传进去，让坦克自己画自己
-        g.setColor(Color.GREEN);
-        g.drawString("坦克的数量:"+ tanks.size() ,100,100);
-        tank.paint(g);
-        for(int i = 0;i < bullets.size(); i++){
+
+        tank.paint(g);  //画出主站坦克
+        for(int i = 0;i < bullets.size(); i++){    //画出子弹
             bullets.get(i).paint(g);
         }
-        for(int i = 0;i < tanks.size(); i++){
-            tanks.get(i).paint(g);
+//        for(int i = 0;i < tanks.size(); i++){   //画出敌军坦克
+//            tanks.get(i).paint(g);
+//        }
+
+        for(int i = 0;i < explodes.size(); i++){   //画出坦克爆炸
+            explodes.get(i).paint(g);
         }
+
+        //碰撞检测
         for(int i = 0; i < bullets.size(); i++ ){
             for(int j = 0; j < tanks.size(); j++){
                 bullets.get(i).collideWith(tanks.get(j));
             }
         }
-        ex.paint(g);
-
     }
 
 
@@ -96,9 +98,6 @@ public class T extends Frame {
                     break;
                 case KeyEvent.VK_UP:   //向上
                     BU = true;
-                    break;
-                case KeyEvent.VK_CONTROL:
-                    tank.file();
                     break;
             }
             setMainTankDir();
@@ -131,8 +130,9 @@ public class T extends Frame {
         //按键结束抬起修改坦克方向  结束之后会调用重画的方法
         private void setMainTankDir() {
             //如果都松开了，让moving为false
-            if(!BL && !BD && !BR &&!BU) tank.setMoving(false);
-            else {
+            if(!BL && !BD && !BR &&!BU) {
+                tank.setMoving(false);
+            } else {
                 tank.setMoving(true); //按下去设置为true
                 if(BL) tank.setDir( Dir.LEFT);
                 if(BD) tank.setDir( Dir.DOWN);

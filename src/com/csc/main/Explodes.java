@@ -6,8 +6,8 @@ import java.awt.*;
  * 子弹类
  * */
 public class Explodes {
-    private static final int WIDTH = ResourceMrg.explodes[0].getWidth();
-    private static final int HEIGHT = ResourceMrg.explodes[0].getHeight();
+    public static final int WIDTH = ResourceMrg.explodes[0].getWidth();
+    public static final int HEIGHT = ResourceMrg.explodes[0].getHeight();
 
     private int x ;
     private int y;
@@ -25,7 +25,7 @@ public class Explodes {
     public void paint(Graphics g){
         g.drawImage(ResourceMrg.explodes[step++],x,y,null);
         if(step >= 16){
-            step = 0;
+            t.explodes.remove(this);
         }
     }
 

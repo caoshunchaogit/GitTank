@@ -15,6 +15,8 @@ public class Bullet {
     public static final int SPEED = 10;  //速度
     public static final int WHIT = 15,HEIGHT = 15;
     public boolean living = true;  //子弹的生存状态
+    public static final int WIDTHB = ResourceMrg.bulletD.getWidth();
+    public static final int HEIGHTB = ResourceMrg.bulletD.getHeight();
 
 
     public Bullet(int x, int y, Dir dir, T t,Group group) {
@@ -43,7 +45,6 @@ public class Bullet {
             case LEFT:
                 g.drawImage(ResourceMrg.bulletL,x+20,y+23,null);
         }
-
         move();
     }
 
@@ -73,6 +74,9 @@ public class Bullet {
         if(rectangle.intersects(rectangle1)){
             myTank.die();
             this.die();
+            int eX = myTank.getX() + MyTank.WIDTH/2 - Explodes.WIDTH/2;
+            int eY = myTank.getY() + MyTank.HEIGHT - Explodes.HEIGHT/2;
+            t.explodes.add(new Explodes(eX,eY,t));
         }
     }
 
