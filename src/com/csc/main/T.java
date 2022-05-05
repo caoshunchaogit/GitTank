@@ -1,7 +1,4 @@
-package com.csc;
-
-import org.omg.CORBA.PUBLIC_MEMBER;
-import sun.rmi.log.LogInputStream;
+package com.csc.main;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -15,8 +12,11 @@ import java.util.List;
  * 窗口类
  * */
 public class T extends Frame {
-    MyTank tank = new MyTank(200,200,Dir.DOWN,this);
-    List<Bullet> bullets = new ArrayList<>();
+    MyTank tank = new MyTank(500,800,Dir.UP,this,Group.GOOD);
+    List<Bullet> bullets = new ArrayList<>();  //子弹集合
+    List<MyTank> tanks = new ArrayList<>();  //敌方坦克的集合
+    Explodes ex = new Explodes(300,500,this);
+
         public T(){
         this.setResizable(false); //设置大小不可变
         this.setSize(1000,1000); //设置宽高
@@ -33,23 +33,48 @@ public class T extends Frame {
         this.addKeyListener(new MyKeyList());
     }
 
+    Image offScreenImage = null;
+
+    @Override
+    public void update(Graphics g) {
+        if (offScreenImage == null) {
+            offScreenImage = this.createImage(1000, 1000);
+        }
+        Graphics gOffScreen = offScreenImage.getGraphics();
+        Color c = gOffScreen.getColor();
+        gOffScreen.setColor(Color.BLACK);
+        gOffScreen.fillRect(0, 0, 1000, 1000);
+        gOffScreen.setColor(c);
+        paint(gOffScreen);
+        g.drawImage(offScreenImage, 0, 0, null);
+    }
+
 
     //每隔50毫秒就会调用一次这个方法 会根据当前的方向进行移动
     @Override
     public void paint(Graphics g) {//当窗口重新绘画的时候会被调用
         //在坦克类里创建方法，把画笔传进去，让坦克自己画自己
+        g.setColor(Color.GREEN);
+        g.drawString("坦克的数量:"+ tanks.size() ,100,100);
         tank.paint(g);
-        for(Bullet b : bullets){
-            //每个子弹自己画自己
-            b.paint(g);
+        for(int i = 0;i < bullets.size(); i++){
+            bullets.get(i).paint(g);
         }
+        for(int i = 0;i < tanks.size(); i++){
+            tanks.get(i).paint(g);
+        }
+        for(int i = 0; i < bullets.size(); i++ ){
+            for(int j = 0; j < tanks.size(); j++){
+                bullets.get(i).collideWith(tanks.get(j));
+            }
+        }
+        ex.paint(g);
 
     }
 
 
     //创建匿名内部类  处理对键盘的监听
     class MyKeyList extends KeyAdapter{
-
         //默认为false
         boolean BL = false;
         boolean BR = false;
@@ -71,6 +96,9 @@ public class T extends Frame {
                     break;
                 case KeyEvent.VK_UP:   //向上
                     BU = true;
+                    break;
+                case KeyEvent.VK_CONTROL:
+                    tank.file();
                     break;
             }
             setMainTankDir();

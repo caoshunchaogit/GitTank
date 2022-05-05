@@ -1,4 +1,4 @@
-package com.csc;
+package com.csc.main;
 
 /**
  * 控制方向的
