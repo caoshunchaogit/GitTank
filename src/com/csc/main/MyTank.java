@@ -12,14 +12,13 @@ public class MyTank {
     public int x ,y;     //x y 为坦克初始的坐标
 
     private Dir dir = Dir.UP; //使坦克的默认方向向上
-    final int SPEED = 5;
+    final int SPEED = 8;
     private boolean moving = true;   //坦克的状态
     private T t;  //窗口类
     public static final int WIDTH = ResourceMrg.goodTankD.getWidth();
     public static final int HEIGHT = ResourceMrg.goodTankD.getHeight();
     public boolean living = true;  //坦克的生死状态
     public Random random = new Random();
-
     Rectangle rectangle = new Rectangle();
 
     public Group group = Group.BOD;
@@ -109,8 +108,6 @@ public class MyTank {
                 y += SPEED;
                 break;
         }
-        rectangle.x = x;
-        rectangle.y = y;
 
         if(y + HEIGHT >= 1000){
             y  = 1000 - HEIGHT;
@@ -125,6 +122,8 @@ public class MyTank {
         if(x <= 0){
             x  = 0;
         }
+        rectangle.x = x;
+        rectangle.y = y;
 
         if(this.group == Group.BOD && (random.nextInt(100) > 95))
             this.file();
@@ -150,4 +149,16 @@ public class MyTank {
     public void die() {
         this.living = false;
     }
+
+
+//    //坦克和坦克的碰撞
+//    public void collideWith(MyTank tank) {
+//        if(this.group == tank.group )return;
+//        if (rectangle.intersects(tank.rectangle)) {
+//            die();
+//            tank.die();
+//        }
+//    }
+
+
 }

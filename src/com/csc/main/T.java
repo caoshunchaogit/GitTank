@@ -72,6 +72,15 @@ public class T extends Frame {
                 bullets.get(i).collideWith(tanks.get(j));
             }
         }
+//        //敌方坦克和我方坦克的碰撞
+//        for(int i = 0; i < tanks.size(); i++){
+//            tanks.get(i).collideWith(tank);
+//        }
+        for(int i = 0; i < bullets.size(); i++ ){
+            for(int j = 0; j < bullets.size(); j++){
+                bullets.get(i).collideWith2(bullets.get(j));
+            }
+        }
     }
 
 

@@ -12,7 +12,7 @@ public class Bullet {
     private T t = null;
     public Group group;
 
-    public static final int SPEED = 10;  //速度
+    public static final int SPEED = 15;  //速度
     public static final int WHIT = 15,HEIGHT = 15;
     public boolean living = true;  //子弹的生存状态
     public static final int WIDTHB = ResourceMrg.bulletD.getWidth();
@@ -77,7 +77,6 @@ public class Bullet {
     }
 
     public void collideWith(MyTank myTank) {
-
         if(group == myTank.group) return;
         if(rectangle.intersects(myTank.rectangle)){
             myTank.die();
@@ -90,5 +89,12 @@ public class Bullet {
 
     private void die() {
         this.living = false;
+    }
+
+    public void collideWith2(Bullet bullet) {
+        if(group == bullet.group) return;
+        if(rectangle.intersects(bullet.rectangle)){
+            this.die();
+        }
     }
 }

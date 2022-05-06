@@ -11,7 +11,9 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws  Exception {
         T t = new T();
-        for(int i = 0; i < 5; i++){
+
+        int initTankCount = Integer.parseInt((String) PropertiesMrg.getKey("initTankCount"));
+        for(int i = 0; i < initTankCount; i++){
             t.tanks.add(new MyTank(100 + i * 50,30,Dir.DOWN, t,Group.BOD));
         }
         while (true){
